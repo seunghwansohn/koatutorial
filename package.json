@@ -1,5 +1,5 @@
 {
-  "name": "Koa",
+  "name": "koa",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -13,6 +13,12 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "nodemon":"^1.18.11"
+    
+  },
+  "scripts":{
+    "start" : "node src",
+    "startdev": "nodemon --watch src/ src/index.js"
   }
 }
