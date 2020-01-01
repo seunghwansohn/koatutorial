@@ -17,7 +17,5 @@ app.listen(4000,() => {
     console.log('Listening to port 4000')
 })
 
-//http://192.168.100.4:4000/api/test
-//=>
-//test성공
-
+//http://192.168.100.4:4000/api/posts
+//=> {"method":"GET","path":"/api/posts","params":{}}
