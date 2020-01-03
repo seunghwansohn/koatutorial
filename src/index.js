@@ -4,26 +4,18 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
 
-
 const {PORT, MONGO_URI} = process.env;
 
 import api from './api';
 
-
-mongoose.
-createConnection(MONGO_URI, 
-    {
-        useCreateIndex: true,
-        useNewUrlParser: true, 
-        useUnifiedTopology: true,
-        useFindAndModify : false
-    })
+mongoose
+    .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
     .then(() => {
-        console.log('Connected to MongoDB')
+        console.log('Connected to MongoDB');
     })
     .catch(e => {
         console.error(e);
-    })
+    });
 
 const app = new Koa()
 const router = new Router();
@@ -37,7 +29,7 @@ app.use(bodyParser())
 //app 인스턴스에 라우터 적용
 app.use(router.routes()).use(router.allowedMethods())
 
-const port = PORT||4000;
+const port = PORT||4000; //PORT가 규정되 있으면 규정된 PORT로 없으면 4000으로.
 app.listen(4000,() => {
     console.log('Listening to %d', port)
 })
