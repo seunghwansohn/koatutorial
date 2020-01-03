@@ -3,10 +3,9 @@ import Koa from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import mongoose from 'mongoose';
+import api from './api';
 
 const {PORT, MONGO_URI} = process.env;
-
-import api from './api';
 
 mongoose
     .connect(MONGO_URI, { useNewUrlParser: true, useFindAndModify: false })
@@ -17,20 +16,21 @@ mongoose
         console.error(e);
     });
 
-const app = new Koa()
+const app = {}
+app.koa = new Koa()
 const router = new Router();
 
 //라우터 설정
 router.use('/api', api.routes()) //api 라우트 적용
 
 //라우터 적용 전에 bodyParser 적용
-app.use(bodyParser())
+app.koa.use(bodyParser())
 
 //app 인스턴스에 라우터 적용
-app.use(router.routes()).use(router.allowedMethods())
+app.koa.use(router.routes()).use(router.allowedMethods())
 
 const port = PORT||4000; //PORT가 규정되 있으면 규정된 PORT로 없으면 4000으로.
-app.listen(4000,() => {
+app.koa.listen(4000,() => {
     console.log('Listening to %d', port)
 })
 
