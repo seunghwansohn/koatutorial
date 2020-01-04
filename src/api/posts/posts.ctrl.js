@@ -46,9 +46,19 @@ export const write = async ctx => {
 }
 
 export const list = async ctx => {
+  const page = parseInt(ctx.query.page || '1', 10) //주소에서 인자를 쿼리스트링으로 받음
+  if (page<1) {
+    ctx.staus = 400;
+    return;
+  }
   try {
-    const posts = await Post.find().sort({ _id: -1}).limit(10).exec();  //조회수를 10개로 제한하고 id역순으로 정렬
-    //find는 mongoose의 메소드로서 특별히 실행을 위해서는 exec()도 붙여야됨
+    const posts = await Post
+    .find() //find는 mongoose의 메소드로서 특별히 실행을 위해서는 exec()도 붙여야됨
+    .sort({ _id: -1}) //id를 기준으로 역순으로 정렬
+    .limit(10) //조회수를 10개로 제한하고 id역순으로 정렬
+    .skip((page -1)*10) //쿼리스트링으로 받은 페이지에 맞춰서 10개씩 보여줌. 10개넘어가면 자름.
+    .exec();  
+   
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e)
