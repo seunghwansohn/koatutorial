@@ -47,7 +47,7 @@ export const write = async ctx => {
 
 export const list = async ctx => {
   try {
-    const posts = await Post.find().exec(); 
+    const posts = await Post.find().sort({ _id: -1}).exec();  //find와 exec사이에 sort를 넣어서 정렬. id는 기준이고 -1은 역순
     //find는 mongoose의 메소드로서 특별히 실행을 위해서는 exec()도 붙여야됨
     ctx.body = posts;
   } catch (e) {
