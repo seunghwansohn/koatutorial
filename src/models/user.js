@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt' //해시 형성 및 해시 검증하여 정보를 확실히 검증
 import jwt from 'jsonwebtoken';
-
 
 const UserSchema = new Schema({
     username: String,
@@ -24,6 +23,7 @@ UserSchema.statics.findByUsername = function(username) {
 
 UserSchema.methods.serialize = function() {
     const data = this.toJSON();
+    console.log("시리얼전", data)
     delete data.hashedPassword;
     return data;
 };
