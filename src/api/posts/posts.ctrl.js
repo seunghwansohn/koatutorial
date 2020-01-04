@@ -61,8 +61,14 @@ export const list = async ctx => {
     
     const postCount = await Post.countDocuments().exec();  //전체 포스트 숫자를 변수로 반환
     ctx.set('Last-Page', Math.ceil(postCount/10)) //10개씩 페이지를 나눴을 때 페이지수를 response 헤더에 Last-Page라는 키로 값을 줌.
-    
-    ctx.body = posts;
+
+    ctx.body = posts
+      .map(post => post.toJSON())
+      .map(post => ({
+        ...post,
+        body:
+          post.body.length < 200 ? post.body : `${post.body.slice(0,200)}...`,
+      })) //모든 포스트들의 body 안의 내용이 200글자 넘어가면 그 이상 부분은 잘라서 ...으로 반환
   } catch (e) {
     ctx.throw(500, e)
   }
