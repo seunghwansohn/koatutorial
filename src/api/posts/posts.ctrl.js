@@ -57,8 +57,11 @@ export const list = async ctx => {
     .sort({ _id: -1}) //id를 기준으로 역순으로 정렬
     .limit(10) //조회수를 10개로 제한하고 id역순으로 정렬
     .skip((page -1)*10) //쿼리스트링으로 받은 페이지에 맞춰서 10개씩 보여줌. 10개넘어가면 자름.
-    .exec();  
-   
+    .exec();
+    
+    const postCount = await Post.countDocuments().exec();  //전체 포스트 숫자를 변수로 반환
+    ctx.set('Last-Page', Math.ceil(postCount/10)) //10개씩 페이지를 나눴을 때 페이지수를 response 헤더에 Last-Page라는 키로 값을 줌.
+    
     ctx.body = posts;
   } catch (e) {
     ctx.throw(500, e)
