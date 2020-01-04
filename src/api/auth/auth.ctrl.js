@@ -64,6 +64,7 @@ export const login = async ctx => {
   }
 
   try {
+    console.log(username)
     const user = await User.findByUsername(username);
     // 계정이 존재하지 않으면 에러 처리
     if (!user) {
@@ -77,11 +78,11 @@ export const login = async ctx => {
       return;
     }
     ctx.body = user.serialize();
-    const token = user.generateToken();
-    ctx.cookies.set('access_token', token, {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
-      httpOnly: true,
-    });
+    // const token = user.generateToken();
+    // ctx.cookies.set('access_token', token, {
+    //   maxAge: 1000 * 60 * 60 * 24 * 7, // 7일
+    //   httpOnly: true,
+    // });
   } catch (e) {
     ctx.throw(500, e);
   }
