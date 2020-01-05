@@ -34,8 +34,10 @@ export const write = async ctx => {
   const post = new Post({
     title,
     body,
-    tags
+    tags,
+    user : ctx.state.user,
   });
+  console.log(post.user)
   try {
     await post.save();
     //save는 mongoose의 메소드로서 데이터베이스에 내용을 저장하는 메소드
